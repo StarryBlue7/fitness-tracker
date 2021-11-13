@@ -17,12 +17,14 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/fitness', {
 });
 
 // API routes
-// app.use(require('./controllers/api.js'));
+app.use(require('./controllers/api.js'));
 
+// Get add exercise page
 app.get('/exercise', (req, res) => {
     res.sendFile(path.join(__dirname, './public/exercise.html'));
 });
 
+// Get stats dashboard page
 app.get('/stats', (req, res) => {
     res.sendFile(path.join(__dirname, './public/stats.html'));
 });
