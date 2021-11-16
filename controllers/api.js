@@ -37,7 +37,7 @@ router.post("/api/workouts", async (req, res) => {
 // Get workouts in range
 router.get("/api/workouts/range", async (req, res) => {
     try {
-        const workoutData = await Workout.find({day: {$gte: new Date().setDate(new Date().getDate()-7)}}).sort({day: 1}).limit(7);
+        const workoutData = await Workout.find({day: {$gte: new Date(new Date().setDate(new Date().getDate() - 7))}}).sort({day: 1}).limit(7);
         await workoutData.forEach(workout => workout.durationTotaller());
         res.status(200).json(workoutData);
     } catch (err) {
