@@ -34,14 +34,15 @@ router.post("/api/workouts", async (req, res) => {
     } 
 });
 
-// Get workouts in range
+// Get workouts in one-week range
 router.get("/api/workouts/range", async (req, res) => {
     try {
-        const workoutData = await Workout.find({
-            day: 
-                {$gte: new Date(new Date().setDate(new Date().getDate() - 7)).setUTCHours(23,59,59,999)}
-        }).sort({day: 1});
-        await workoutData.forEach(workout => workout.durationTotaller());
+        // Set threshold for one week ago
+        let oneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7)).setHours(23,59,59,999);
+
+        const workoutData = await Workout.find({day: {$gte: oneWeekAgo}}).sort({day: 1});
+        workoutData.forEach(workout => workout.durationTotaller());
+        
         res.status(200).json(workoutData);
     } catch (err) {
         res.status(400).json(err);
